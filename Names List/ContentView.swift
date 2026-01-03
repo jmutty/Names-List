@@ -56,6 +56,8 @@ struct MainAppView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
+                UpdateBannerView()
+                
                 // Header with folder info and mode switcher
                 VStack(spacing: isNarrowLayout ? DesignSystem.narrowSpacing : DesignSystem.spacing) {
                     if let jobFolder = appState.jobFolderURL {
@@ -131,6 +133,7 @@ struct MainAppView: View {
                 .environmentObject(appState)
             }
             .onAppear {
+                UpdateService.shared.checkForUpdates()
                 windowWidth = geometry.size.width
             }
             .onChange(of: geometry.size.width) { _, newWidth in
