@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		709CE4002E7B257F0008E32E /* CoreXLSX in Frameworks */ = {isa = PBXBuildFile; productRef = 709CE3FF2E7B257F0008E32E /* CoreXLSX */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		70E87E8E2E402C0500323AA1 /* Names List.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Names List.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		70F1B3EA2EBB0EBD0070BD09 /* Names List.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = "Names List.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -23,6 +28,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				709CE4002E7B257F0008E32E /* CoreXLSX in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +48,11 @@
 			children = (
 				70E87E8E2E402C0500323AA1 /* Names List.app */,
 			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		70F1B3F12EBB0EBD0070BD09 /* Products */ = {
+			isa = PBXGroup;
 			name = Products;
 			sourceTree = "<group>";
 		};
@@ -65,6 +76,7 @@
 			);
 			name = "Names List";
 			packageProductDependencies = (
+				709CE3FF2E7B257F0008E32E /* CoreXLSX */,
 			);
 			productName = "Names List";
 			productReference = 70E87E8E2E402C0500323AA1 /* Names List.app */;
@@ -94,9 +106,18 @@
 			);
 			mainGroup = 70E87E852E402C0500323AA1;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				709CE3FE2E7B257F0008E32E /* XCRemoteSwiftPackageReference "CoreXLSX" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 70E87E8F2E402C0500323AA1 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 70F1B3F12EBB0EBD0070BD09 /* Products */;
+					ProjectRef = 70F1B3EA2EBB0EBD0070BD09 /* Names List.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				70E87E8D2E402C0500323AA1 /* Names List */,
@@ -249,6 +270,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSAppleEventsUsageDescription = "This app needs to run scripts to update metadata in Capture One.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -281,11 +303,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "Names List/Names_List.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Names List/Names ListRelease.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSAppleEventsUsageDescription = "This app needs to run scripts to update metadata in Capture One.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -335,6 +358,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		709CE3FE2E7B257F0008E32E /* XCRemoteSwiftPackageReference "CoreXLSX" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CoreOffice/CoreXLSX";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.14.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		709CE3FF2E7B257F0008E32E /* CoreXLSX */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 709CE3FE2E7B257F0008E32E /* XCRemoteSwiftPackageReference "CoreXLSX" */;
+			productName = CoreXLSX;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 70E87E862E402C0500323AA1 /* Project object */;
 }

@@ -1,0 +1,60 @@
+# Xcode
+#
+# gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
+
+## User settings
+xcuserdata/
+
+## compatibility with Xcode 8 and earlier (ignoring not required starting Xcode 9)
+*.mode1v3
+*.mode2v3
+*.pbuser
+*.perspectivev3
+!default.pbxuser
+!default.mode1v3
+!default.mode2v3
+!default.perspectivev3
+
+## Build generated
+build/
+DerivedData/
+
+## Misc
+*.moved-aside
+*.xccheckout
+*.xcscmblueprint
+
+## Obj-C/Swift specific
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+## Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+## Swift Package Manager
+# Add this line if you want to avoid checking in xcode project with SPM dependencies.
+# .swiftpm/xcode/
+# These are safe to check in, but often cause merge conflicts.
+# .swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+# .swiftpm/xcode/xcshareddata/xcschemes/
+
+## CocoaPods
+# We recommend against adding the Pods directory to your .gitignore. However
+# you should judge for yourself, the pros and cons are mentioned at:
+# https://guides.cocoapods.org/using/using-cocoapods.html#should-i-check-the-pods-directory-into-source-control
+# Pods/
+# Vendor/
+
+## Carthage
+# Carthage/Build/
+
+## fastlane
+# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate them.
+# fastlane/screenshots
+# fastlane/test_output
+
+## macOS
+.DS_Store
