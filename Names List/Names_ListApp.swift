@@ -12,9 +12,10 @@ struct Names_ListApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .background(WindowAccessor())
         }
         .windowResizability(.contentSize)
-        .defaultSize(width: 323, height: 1019)
-        .defaultPosition(.init(x: 1400, y: 60))
+        .defaultSize(width: 260, height: 1000)
+        .defaultPosition(.topTrailing)
     }
 }

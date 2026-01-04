@@ -34,6 +34,7 @@ class UpdateService: NSObject, ObservableObject, URLSessionTaskDelegate {
     @Published var latestRelease: GitHubRelease?
     @Published var downloadProgress: Double = 0
     @Published var isDownloading = false
+    @Published var updateError: String?
     
     private let fileManager = FileManager.default
     
@@ -51,8 +52,14 @@ class UpdateService: NSObject, ObservableObject, URLSessionTaskDelegate {
         request.setValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
         
         let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
-            guard let self = self, let data = data, error == nil else {
-                print("Update check failed: \(error?.localizedDescription ?? "Unknown error")")
+            guard let self = self else { return }
+            
+            guard let data = data, error == nil else {
+                let errorMessage = error?.localizedDescription ?? "Unknown error"
+                print("Update check failed: \(errorMessage)")
+                DispatchQueue.main.async {
+                    self.updateError = "Check failed: \(errorMessage)"
+                }
                 return
             }
             
@@ -62,7 +69,14 @@ class UpdateService: NSObject, ObservableObject, URLSessionTaskDelegate {
                     self.compareVersions(release: release)
                 }
             } catch {
+                // Debug: Print the raw response
+                if let responseString = String(data: data, encoding: .utf8) {
+                    print("GitHub API Response: \(responseString)")
+                }
                 print("Failed to decode release info: \(error)")
+                DispatchQueue.main.async {
+                    self.updateError = "Failed to parse release info. Check console for details."
+                }
             }
         }
         task.resume()
@@ -88,7 +102,10 @@ class UpdateService: NSObject, ObservableObject, URLSessionTaskDelegate {
             return
         }
         
-        guard let url = URL(string: asset.url) else { return }
+        guard let url = URL(string: asset.url) else {
+             self.updateError = "Invalid download URL"
+             return
+        }
         
         isDownloading = true
         
@@ -106,9 +123,11 @@ class UpdateService: NSObject, ObservableObject, URLSessionTaskDelegate {
             }
             
             guard let localUrl = localUrl, error == nil else {
+                let errorMsg = error?.localizedDescription ?? "Unknown download error"
                 DispatchQueue.main.async {
                     self.isDownloading = false
-                    print("Download failed")
+                    self.updateError = "Download failed: \(errorMsg)"
+                    print("Download failed: \(errorMsg)")
                 }
                 return
             }
@@ -130,6 +149,7 @@ class UpdateService: NSObject, ObservableObject, URLSessionTaskDelegate {
                 print("File handling error: \(error)")
                 DispatchQueue.main.async {
                     self.isDownloading = false
+                    self.updateError = "File system error: \(error.localizedDescription)"
                 }
             }
         }
@@ -151,29 +171,17 @@ class UpdateService: NSObject, ObservableObject, URLSessionTaskDelegate {
         let unzipDir = (zipPath as NSString).deletingLastPathComponent
         
         let script = """
-        LOG="/Users/207photo/Desktop/update_log_names_list.txt"
-        echo "$(date): Starting update process" > "$LOG"
-        echo "Zip Path: \(zipPath)" >> "$LOG"
-        echo "App Path: \(appBundlePath)" >> "$LOG"
-        
-        sleep 2
+        sleep 3
         
         cd "\(unzipDir)"
-        echo "Unzipping..." >> "$LOG"
-        /usr/bin/unzip -o "\(zipPath)" >> "$LOG" 2>&1
-        
-        echo "Removing old app..." >> "$LOG"
-        rm -rf "\(appBundlePath)" >> "$LOG" 2>&1
-        
-        echo "Moving new app..." >> "$LOG"
-        mv "\(appName)" "\(appParentDir)/" >> "$LOG" 2>&1
-        
-        echo "Removing quarantine..." >> "$LOG"
-        xattr -cr "\(appBundlePath)" >> "$LOG" 2>&1
-        
-        echo "Launching new app..." >> "$LOG"
-        open "\(appBundlePath)" >> "$LOG" 2>&1
-        echo "Done" >> "$LOG"
+        if /usr/bin/unzip -o "\(zipPath)" > /dev/null 2>&1; then
+            rm -rf "\(appBundlePath)" > /dev/null 2>&1
+            
+            if mv "\(appName)" "\(appParentDir)/" > /dev/null 2>&1; then
+                xattr -cr "\(appBundlePath)" > /dev/null 2>&1
+                open "\(appBundlePath)" > /dev/null 2>&1
+            fi
+        fi
         """
         
         let process = Process()
@@ -189,6 +197,7 @@ class UpdateService: NSObject, ObservableObject, URLSessionTaskDelegate {
             print("Failed to run update script: \(error)")
             DispatchQueue.main.async {
                 self.isDownloading = false
+                self.updateError = "Script execution failed: \(error.localizedDescription)"
             }
         }
     }

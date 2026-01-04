@@ -52,6 +52,48 @@ struct UpdateBannerView: View {
             .shadow(radius: 4)
             .padding()
             .transition(.move(edge: .top))
+        } else if let error = updateService.updateError {
+            HStack {
+                Image(systemName: "exclamationmark.triangle.fill")
+                    .foregroundColor(.white)
+                    .font(.title2)
+                
+                Text(error)
+                    .font(.callout)
+                    .foregroundColor(.white)
+                    .lineLimit(2)
+                
+                Spacer()
+                
+                Button(action: {
+                    updateService.updateError = nil
+                    updateService.checkForUpdates() // Retry
+                }) {
+                    Text("Retry")
+                        .fontWeight(.bold)
+                        .foregroundColor(Color(NSColor.systemRed))
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(Color.white)
+                        .cornerRadius(8)
+                }
+                .buttonStyle(PlainButtonStyle())
+                
+                Button(action: {
+                    updateService.updateError = nil
+                }) {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundColor(.white.opacity(0.8))
+                        .font(.title2)
+                }
+                .buttonStyle(PlainButtonStyle())
+            }
+            .padding()
+            .background(Color(NSColor.systemRed))
+            .cornerRadius(10)
+            .shadow(radius: 4)
+            .padding()
+            .transition(.move(edge: .top))
         }
     }
 }

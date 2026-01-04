@@ -3,7 +3,7 @@ import SwiftUI
 // MARK: - Design System
 struct DesignSystem {
 	// Window size constants
-	static let narrowWindowWidth: CGFloat = 323
+	static let narrowWindowWidth: CGFloat = 260
 	static let narrowWindowHeight: CGFloat = 1019
 	static let defaultWindowPosition = CGPoint(x: 1400, y: 60)
 	
